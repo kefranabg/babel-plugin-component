@@ -41,7 +41,7 @@ module.exports = function core(defaultLibraryName) {
           root = '',
           camel2Dash = true,
         } = options;
-        let styleLibraryName = options.styleLibraryName;
+        let styleLibraryPath = options.styleLibraryPath;
         let _root = root;
         let isBaseStyle = true;
         let modulePathTpl;
@@ -65,18 +65,15 @@ module.exports = function core(defaultLibraryName) {
 
         selectedMethods[methodName] = addDefault(file.path, path, { nameHint: methodName });
         if (styleLibrary && typeof styleLibrary === 'object') {
-          styleLibraryName = styleLibrary.name;
+          styleLibraryPath = styleLibrary.name;
           isBaseStyle = styleLibrary.base;
           modulePathTpl = styleLibrary.path;
           mixin = styleLibrary.mixin;
           styleRoot = styleLibrary.root;
         }
-        if (styleLibraryName) {
+        if (styleLibraryPath) {
           if (!cachePath[libraryName]) {
-            const themeName = styleLibraryName.replace(/^~/, '');
-            cachePath[libraryName] = styleLibraryName.indexOf('~') === 0
-              ? resolve(process.cwd(), themeName)
-              : `${libraryName}/${libDir}/${themeName}`;
+            cachePath[libraryName] = styleLibraryPath;
           }
 
           if (libraryObjs[methodName]) {
