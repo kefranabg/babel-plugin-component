@@ -73,7 +73,10 @@ module.exports = function core(defaultLibraryName) {
         }
         if (styleLibraryPath) {
           if (!cachePath[libraryName]) {
-            cachePath[libraryName] = styleLibraryPath;
+            const themeName = styleLibraryPath.replace(/^~/, '');
+            cachePath[libraryName] = styleLibraryPath.indexOf('~') === 0
+              ? resolve(process.cwd(), themeName)
+              : styleLibraryPath;
           }
 
           if (libraryObjs[methodName]) {
